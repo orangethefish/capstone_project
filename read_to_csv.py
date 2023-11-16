@@ -9,6 +9,10 @@ def main(com_port, filename, official):
     # Create the "csv" folder if it doesn't exist
     if not os.path.exists("csv/"):
         os.makedirs("csv/")
+    if not os.path.exists("csv/official/"):
+        os.makedirs("csv/offical/")
+    if not os.path.exists("csv/unofficial/"):
+        os.makedirs("csv/unofficial/")
 
     # Construct the full path for the CSV file in the appropriate folder
     csv_path = os.path.join("csv/", "official/" if official else "unofficial/", filename)
