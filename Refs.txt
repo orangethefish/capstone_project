@@ -1,0 +1,9 @@
+https://developer.chrome.com/articles/bluetooth/
+https://wiki.seeedstudio.com/XIAO-BLE-Sense-TFLite-Getting-Started/
+https://openimu.readthedocs.io/en/latest/algorithms/KalmanFilter.html
+https://www.instructables.com/Guide-to-gyro-and-accelerometer-with-Arduino-inclu/
+http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
+https://scholars.csus.edu/esploro/outputs/graduate/Filtering-of-IMU-data-using-Kalman/99257831038101671#file-0
+https://scholarworks.calstate.edu/concern/projects/tt44pt62v
+https://ece.montana.edu/seniordesign/archive/SP14/UnderwaterNavigation/kalman_filter.html
+https://www.researchgate.net/publication/221844061_Improved_Kalman_Filter_Method_for_Measurement_Noise_Reduction_in_Multi_Sensor_RFID_Systems
