@@ -17,6 +17,12 @@ L = 3
 
 XX = X.copy()
 
+# Add 4g and divide the first 3 columns by 8g
+X[:, :3] = (X[:, :3] + 4 * g_value) /  (8 * g_value)
+
+# Add 2000 and divide the last 3 columns by 4000
+X[:, 3:] = (X[:, 3:] + 2000) / 4000
+
 m = np.mean(X, axis=0) #mean of X
 
 #Subtract the mean from each value of X so that the data does not vary too much when calculating
