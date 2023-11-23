@@ -3,8 +3,8 @@ import numpy as np
 import csv
 import matplotlib.pyplot as plt
 
-filename = 'Odata.csv'  #name of data file
-
+filename = 'L_sample.csv'  #name of data file
+g_value = 9.80665 
 csv_path = os.path.join("csv/", "official/", filename)
 
 X = np.genfromtxt(csv_path, delimiter=',', skip_header=1) #Original data matrix
@@ -60,7 +60,7 @@ print('Transformed Data:')
 print(Z)
 
 # Specify the output CSV file name
-output_file = 'outO.csv'
+output_file = 'Sample_L.csv'
 
 csv_out_path = os.path.join("csv/", "official/", output_file)
 
