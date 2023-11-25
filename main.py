@@ -74,7 +74,7 @@ for filename in input_files:
     output_file = f"{os.path.splitext(filename)[0]}_pca.csv"
     # output_file = 'Opca.csv'
 
-    csv_out_path = os.path.join(input_folder, output_file)
+    csv_out_path = os.path.join(input_folder,"PCA", output_file)
 
     # Write the matrix to the CSV file (create the file if it doesn't exist)
     with open(csv_out_path, 'w', newline='') as csvfile:
