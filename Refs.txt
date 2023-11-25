@@ -8,3 +8,4 @@ https://scholarworks.calstate.edu/concern/projects/tt44pt62v
 https://ece.montana.edu/seniordesign/archive/SP14/UnderwaterNavigation/kalman_filter.html
 https://www.researchgate.net/publication/221844061_Improved_Kalman_Filter_Method_for_Measurement_Noise_Reduction_in_Multi_Sensor_RFID_Systems
 https://files.seeedstudio.com/wiki/XIAO-BLE/ST_LSM6DS3TR_Datasheet.pdf
+accelerometer
