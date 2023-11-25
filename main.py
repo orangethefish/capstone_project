@@ -3,7 +3,7 @@ import numpy as np
 import csv
 import matplotlib.pyplot as plt
 
-filename = 'L_sample.csv'  #name of data file
+filename = 'O_2_sample.csv'  #name of data file
 g_value = 9.80665 
 csv_path = os.path.join("csv/", "official/", filename)
 
@@ -60,7 +60,7 @@ print('Transformed Data:')
 print(Z)
 
 # Specify the output CSV file name
-output_file = 'Sample_L.csv'
+output_file = 'Sample_O_2.csv'
 
 csv_out_path = os.path.join("csv/", "official/", output_file)
 
