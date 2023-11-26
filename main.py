@@ -11,6 +11,8 @@ input_folder = input("Enter the path to the input folder: ")
 # Get a list of all CSV files in the input folder
 input_files = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
 
+if not os.path.exists(f"{input_folder}/PCA"):
+    os.makedirs(f"{input_folder}/PCA")
 # Iterate through each input file
 for filename in input_files:
 
@@ -96,17 +98,17 @@ for filename in input_files:
     x = np.arange(len(variable1))
 
     # Create the plot
-    plt.figure(figsize=(10, 6))
-    plt.plot(x, variable1, label='Variable 1')
-    plt.plot(x, variable2, label='Variable 2')
-    plt.plot(x, variable3, label='Variable 3')
+    # plt.figure(figsize=(10, 6))
+    # plt.plot(x, variable1, label='Variable 1')
+    # plt.plot(x, variable2, label='Variable 2')
+    # plt.plot(x, variable3, label='Variable 3')
 
-    # Customize the plot
-    plt.title('Variables Over Time')
-    plt.xlabel('Time Step (Row Number)')
-    plt.ylabel('Value')
-    plt.legend()
+    # # Customize the plot
+    # plt.title('Variables Over Time')
+    # plt.xlabel('Time Step (Row Number)')
+    # plt.ylabel('Value')
+    # plt.legend()
 
-    # Display the plot
-    plt.grid(True)
-    plt.show()
+    # # Display the plot
+    # plt.grid(True)
+    # plt.show()

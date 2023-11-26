@@ -16,6 +16,8 @@ def main(com_port, label_name, official):
 
     # Generate a unique filename based on the label name and the current time
     timestamp = int(time.time())
+    recording = 0
+    #stops if recording > 50
     filename = f"{label_name}_{timestamp}.csv"
 
     while True:
@@ -61,6 +63,7 @@ def main(com_port, label_name, official):
 
                 except KeyboardInterrupt:
                     print("KeyboardInterrupt: Exiting...")
+                    os.remove(csv_path)  # Delete the recorded file
                     break
                 except Exception as e:
                     print(f"Error: {e}")
@@ -69,12 +72,16 @@ def main(com_port, label_name, official):
         ser.close()
 
         save_recording = input("Save this recording? (Press enter to continue or press any other key to delete) ")
-        if save_recording == '':
+        if save_recording != '':
             os.remove(csv_path)  # Delete the recorded file
             continue
-        # Check if recording should continue
-        if input("Continue recording? (Press enter to continue or press any other key to exit) " ) != '':
+        else:
+            recording += 1
+        if recording >= 100:
             break
+        # Check if recording should continue
+        # if input("Continue recording? (Press enter to continue or press any other key to exit) " ) != '':
+        #     break
         # Increment the file number for the next recording
         timestamp = int(time.time())
         filename = f"{label_name}_{timestamp}.csv"
