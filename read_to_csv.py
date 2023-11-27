@@ -13,7 +13,7 @@ def main(com_port, label_name, official):
         os.makedirs("csv/official/")
     if not os.path.exists("csv/unofficial/"):
         os.makedirs("csv/unofficial/")
-
+    
     # Generate a unique filename based on the label name and the current time
     timestamp = int(time.time())
     recording = 0
@@ -26,6 +26,8 @@ def main(com_port, label_name, official):
             folder_path = "csv/official/"
         else:
             folder_path = "csv/unofficial/"
+        if not os.path.exists(f"{folder_path}/{label_name}"):
+            os.makedirs(f"{folder_path}/{label_name}")
         csv_path = os.path.join(folder_path, filename)
 
         # Print the filename and start recording
