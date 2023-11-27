@@ -15,10 +15,9 @@ def main(com_port, label_name, official):
         os.makedirs("csv/unofficial/")
     
     # Generate a unique filename based on the label name and the current time
-    timestamp = int(time.time())
     recording = 0
     #stops if recording > 50
-    filename = f"{label_name}_{timestamp}.csv"
+    filename = f"{label_name}_{recording}.csv"
 
     while True:
         # Construct the full path for the CSV file in the appropriate folder
@@ -85,8 +84,7 @@ def main(com_port, label_name, official):
         # if input("Continue recording? (Press enter to continue or press any other key to exit) " ) != '':
         #     break
         # Increment the file number for the next recording
-        timestamp = int(time.time())
-        filename = f"{label_name}_{timestamp}.csv"
+        filename = f"{label_name}_{recording}.csv"
 
 if __name__ == '__main__':
     # Parse command-line arguments
