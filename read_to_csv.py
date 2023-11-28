@@ -27,7 +27,7 @@ def main(com_port, label_name, official):
             folder_path = "csv/unofficial/"
         if not os.path.exists(f"{folder_path}/{label_name}"):
             os.makedirs(f"{folder_path}/{label_name}")
-        csv_path = os.path.join(folder_path, filename)
+        csv_path = os.path.join(folder_path,label_name, filename)
 
         # Print the filename and start recording
         print(f"Wait 2 seconds before recording data to '{csv_path}' for 2 seconds...")
@@ -81,8 +81,8 @@ def main(com_port, label_name, official):
         if recording >= 100:
             break
         # Check if recording should continue
-        # if input("Continue recording? (Press enter to continue or press any other key to exit) " ) != '':
-        #     break
+        if input("Continue recording? (Press enter to continue or press any other key to exit) " ) != '':
+            break
         # Increment the file number for the next recording
         filename = f"{label_name}_{recording}.csv"
 
