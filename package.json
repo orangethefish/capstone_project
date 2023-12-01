@@ -1,0 +1,11 @@
+{
+  "name": "capstone_project",
+  "version": "1.0.0",
+  "description": "Human Gestures Recognition based on IMU sensor and ML",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hoa Nguyen and Tuan Nguyen",
+  "license": "ISC"
+}
