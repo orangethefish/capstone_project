@@ -24,20 +24,14 @@ function connectBluetooth() {
       accCharacteristic.startNotifications();
       accCharacteristic.addEventListener('characteristicvaluechanged', handleAccCharacteristicValueChanged);
       
-      gyroCharacteristic.startNotifications();
-      gyroCharacteristic.addEventListener('characteristicvaluechanged', handleGyroCharacteristicValueChanged);
+      // gyroCharacteristic.startNotifications();
+      // gyroCharacteristic.addEventListener('characteristicvaluechanged', handleGyroCharacteristicValueChanged);
       
       console.log('Notifications have been started.');
 
       setInterval(() => {
-        elapsedTime += 1; // Increment the elapsed time by 2 seconds
-
-        // Check if 2 seconds have passed
-        if (elapsedTime >= 2) {
-          sendDataToBackend();
-          elapsedTime = 0; // Reset the elapsed time
-        }
-      }, 1000);
+        sendDataToBackend();
+      }, 2000);
     })
     .catch(error => { console.error(error); });
 }
@@ -62,7 +56,7 @@ function handleGyroCharacteristicValueChanged(event) {
   // console.log(`Gyro: ${gx.toFixed(4)} ${gy.toFixed(4)} ${gz.toFixed(4)}`);
 }
 
-function sendDataToBackend() {
+async function sendDataToBackend() {
   // Send accelerometer and gyroscope data to the backend API
   // using fetch or any other HTTP library
   // fetch('backend-api-url', {
@@ -80,7 +74,7 @@ function sendDataToBackend() {
   //     console.error('Error sending data to backend:', error);
   //   });
   console.log(accelerometer);
-  // console.log(gyroscope);
+  console.log(gyroscope);
   // Clear the arrays for the next set of data
   accelerometer = [];
   gyroscope = [];
