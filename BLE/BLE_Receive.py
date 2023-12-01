@@ -5,11 +5,11 @@ from time import sleep
 
 
 async def acc_handler(sender: int, data: bytearray):
-    ax, ay, az = struct.unpack('<fff', data)
-    print(f"Acc: {ax:0.4f} {ay:0.4f} {az:0.4f} ")
-async def gyro_handler(sender: int, data: bytearray):
-    gx, gy, gz = struct.unpack('<fff', data)
-    print(f"Gyro: {gx:0.4f} {gy:0.4f} {gz:0.4f} ")
+    ax, ay, az, gx, gy, gz = struct.unpack('<ffffff', data)
+    print(f"Acc: {ax:0.4f} {ay:0.4f} {az:0.4f} {gx:0.4f} {gy:0.4f} {gz:0.4f}")
+# async def gyro_handler(sender: int, data: bytearray):
+#     gx, gy, gz = struct.unpack('<fff', data)
+#     print(f"Gyro: {gx:0.4f} {gy:0.4f} {gz:0.4f} ")
 async def run(address, acc_uuid, gyro_uuid):
     async with BleakClient(address, bufferred= True) as client:
         while True:
@@ -26,7 +26,7 @@ async def run(address, acc_uuid, gyro_uuid):
                 # for i in range(0, 10):
                 #     print(data[i]); sleep(0.1)
                 await client.start_notify(acc_uuid, acc_handler)
-                await client.start_notify(gyro_uuid, gyro_handler)
+                # await client.start_notify(gyro_uuid, gyro_handler)
             except KeyboardInterrupt:
                 break  # Stop the loop on Ctrl+C
 
