@@ -38,8 +38,11 @@ def get_predictions():
 
 
 def process_input_data(data):
-    # Extract the matrix X from the array of objects
-    X = np.array([[item['ax'], item['ay'], item['az'], item['gx'], item['gy'], item['gz']] for item in data])
+    # Get the column names from the first object in the array
+    column_names = list(data[0].keys())
+
+    # Extract values from each object using dynamic column names
+    X = np.array([[item[column] for column in column_names] for item in data])
 
     return X
 
