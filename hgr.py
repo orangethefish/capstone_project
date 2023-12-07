@@ -39,12 +39,12 @@ tf.random.set_seed(SEED)
 # ]
 
 GESTURES = [
-    "idle", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"
+    "idle", "A", "B", "C", "D", "E", "F", "G", "H", "J"
 ]
 NUM_GESTURES = len(GESTURES)
 ONE_HOT_ENCODED_GESTURES = np.eye(NUM_GESTURES)
 
-NUM_OF_RECORDINGS  = 100
+NUM_OF_RECORDINGS  = 300
 
 inputs = []
 outputs = []
@@ -55,7 +55,7 @@ for gesture_index in range (NUM_GESTURES):
   print(f"Processing index {gesture_index} for gesture '{gesture}'.")
   output = ONE_HOT_ENCODED_GESTURES[gesture_index]
   for i in range(NUM_OF_RECORDINGS):
-    filename = f"dataset/{gesture}_{i}_pca.csv"
+    filename = f"official/{gesture}/PCA/{gesture}_{i}_pca.csv"
     print(f"Processing file: {filename}")
     df = pd.read_csv(filename)
     input = df.to_numpy().flatten()
@@ -122,7 +122,7 @@ model.add(Dense(100,kernel_regularizer=regularizers.L1L2(l1=1e-5, l2=1e-4),
 model.add(Dropout(0.5))
 model.add(Dense(15, activation='relu'))
 model.add(Dense(NUM_GESTURES, activation='softmax')) # softmax is used, because we only expect one gesture to occur per input
-model.compile(optimizer='adam', loss='mae', metrics=['acc'])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 history = model.fit(inputs_train, outputs_train, epochs=100, batch_size=16, validation_data=(inputs_validate, outputs_validate))
 model.summary()
 
