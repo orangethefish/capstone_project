@@ -24,35 +24,37 @@ def jittering(time_series, noise_factor=0.01):
     return jittered_series
 
 # Specify the label
-label = "J"
+GESTURES = [
+    "idle", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J","K", "L","M", "N", "O", "P", "Q", "R"
+]
+for label in GESTURES:
+    # Directory containing the original CSV files
+    input_directory = f'csv/official/{label}/'
 
-# Directory containing the original CSV files
-input_directory = f'csv/official/{label}/'
+    # Directory to save the new CSV files with jittered data
+    output_directory = f'csv/official/{label}/'
 
-# Directory to save the new CSV files with jittered data
-output_directory = f'csv/official/{label}/'
+    # Ensure the output directory exists, create if necessary
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
 
-# Ensure the output directory exists, create if necessary
-if not os.path.exists(output_directory):
-    os.makedirs(output_directory)
+    # Iterate through each original CSV file
+    for i in range(100):
+        input_filename = f'{label}_{i}.csv'
+        output_filename = f'{label}_{i+200}.csv'
 
-# Iterate through each original CSV file
-for i in range(100):
-    input_filename = f'{label}_{i}.csv'
-    output_filename = f'{label}_{i+200}.csv'
+        # Read the original CSV file
+        original_data = pd.read_csv(os.path.join(input_directory, input_filename))
 
-    # Read the original CSV file
-    original_data = pd.read_csv(os.path.join(input_directory, input_filename))
+        # Extract the time series data from each column
+        original_time_series_columns = [original_data[col].values for col in original_data.columns]
 
-    # Extract the time series data from each column
-    original_time_series_columns = [original_data[col].values for col in original_data.columns]
+        # Apply jittering to each column
+        noise_factor = 0.01
+        jittered_time_series_columns = [jittering(column, noise_factor) for column in original_time_series_columns]
 
-    # Apply jittering to each column
-    noise_factor = 0.01
-    jittered_time_series_columns = [jittering(column, noise_factor) for column in original_time_series_columns]
+        # Combine the jittered columns into a new DataFrame
+        jittered_data = pd.DataFrame({f'column_{i}': column for i, column in enumerate(jittered_time_series_columns)})
 
-    # Combine the jittered columns into a new DataFrame
-    jittered_data = pd.DataFrame({f'column_{i}': column for i, column in enumerate(jittered_time_series_columns)})
-
-    # Save the jittered data to a new CSV file
-    jittered_data.to_csv(os.path.join(output_directory, output_filename), index=False)
+        # Save the jittered data to a new CSV file
+        jittered_data.to_csv(os.path.join(output_directory, output_filename), index=False)
