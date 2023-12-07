@@ -30,7 +30,7 @@ for label in GESTURES:
 
         #L = int(input('Number of Eigen Values to keep: '))
         L = 3
-        #Number of elements to keep
+        #Number of elements to keepA
 
         XX = X.copy()
 
