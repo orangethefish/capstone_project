@@ -14,9 +14,6 @@ function connectBluetooth() {
 .then(characteristic => {
   characteristic.addEventListener('characteristicvaluechanged',
                                   handleCharacteristicValueChanged);
-  setInterval(() => {
-    sendDataToBackend();
-  }, 2000);
   console.log('Notifications have been started.');
 })
 .catch(error => { console.error(error); });
@@ -31,8 +28,8 @@ function handleCharacteristicValueChanged(event) {
   const gx = new DataView(data.buffer, 12).getFloat32(0, true);
   const gy = new DataView(data.buffer, 16).getFloat32(0, true);
   const gz = new DataView(data.buffer, 20).getFloat32(0, true);
-  readings.push({ ax, ay, az, gx, gy, gz });
-  // console.log(`Acc: ${ax.toFixed(4)} ${ay.toFixed(4)} ${az.toFixed(4)}`);
+  // readings.push({ ax, ay, az, gx, gy, gz });
+  console.log(`${ax.toFixed(4)} ${ay.toFixed(4)} ${az.toFixed(4)} ${gx.toFixed(4)} ${gy.toFixed(4)} ${gz.toFixed(4)}`);
   
 }
 
@@ -55,6 +52,7 @@ async function sendDataToBackend() {
   //   });
   let body = JSON.stringify({ readings });
   console.log(body);
+  // console.log(readings);
   // Clear the arrays for the next set of data
   readings = [];
 }
