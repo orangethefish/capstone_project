@@ -123,7 +123,7 @@ model.add(Dropout(0.5))
 model.add(Dense(15, activation='relu'))
 model.add(Dense(NUM_GESTURES, activation='softmax')) # softmax is used, because we only expect one gesture to occur per input
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
-history = model.fit(inputs_train, outputs_train, epochs=50, batch_size=16, validation_data=(inputs_validate, outputs_validate))
+history = model.fit(inputs_train, outputs_train, epochs=100, batch_size=32, validation_data=(inputs_validate, outputs_validate))
 model.summary()
 
 # use the model to predict the test inputs

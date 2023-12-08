@@ -7,7 +7,7 @@ g_value = 9.80665
 
 # Prompt the user to enter the path to the input folder
 GESTURES = [
-    "idle", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J","K", "L","M", "N", "O", "P", "Q", "R"
+    "S", "T", "U", "V","W", "X", "Y", "Z"
 ]
 for label in GESTURES:
     input_folder = f"csv/official/{label}/"

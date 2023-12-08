@@ -25,7 +25,7 @@ def jittering(time_series, noise_factor=0.01):
 
 # Specify the label
 GESTURES = [
-    "idle", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J","K", "L","M", "N", "O", "P", "Q", "R"
+    "S", "T", "U", "V","W", "X", "Y", "Z"
 ]
 for label in GESTURES:
     # Directory containing the original CSV files
