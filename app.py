@@ -3,10 +3,10 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pandas as pd
-from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
 # app.config['Access-Control-Allow-Origin'] = '*'
 # app.config['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
@@ -33,7 +33,7 @@ def before_request():
     if request.method == 'OPTIONS' or request.method == 'options': 
         return jsonify(headers), 200
 @app.route('/capstone/api/predictions', methods=['POST', 'OPTIONS'])
-@cross_origin()
+# @cross_origin()
 def get_predictions():
     try:
         # if request.method == "OPTIONS": # CORS preflight
@@ -160,7 +160,7 @@ def get_input_data(data):
     flattened_array = data.flatten()
 
     # Pad the flattened array to a length of 320
-    padded_sequence = pad_sequences([flattened_array], maxlen=300, dtype='float32', padding='post', truncating='post')
+    padded_sequence = pad_sequences([flattened_array], maxlen=270, dtype='float32', padding='post', truncating='post')
 
     # Convert the padded sequence to a TensorFlow tensor
     inputs_test = tf.convert_to_tensor(padded_sequence, dtype=tf.float32)
