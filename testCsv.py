@@ -10,6 +10,11 @@ from keras.layers import Dense, Dropout, LSTM, Reshape
 GESTURES = [
     "A"
 ]
+labels = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+    "K", "L","M", "N", "O", "P", "Q", "R", "S", "T",
+    "U", "V","W", "X", "Y", "Z", "idle"
+]
 NUM_GESTURES = len(GESTURES)
 ONE_HOT_ENCODED_GESTURES = np.eye(NUM_GESTURES)
 
@@ -21,12 +26,12 @@ for gesture_index in range (NUM_GESTURES):
   gesture = GESTURES[gesture_index]
   print(f"Processing index {gesture_index} for gesture '{gesture}'.")
   output = ONE_HOT_ENCODED_GESTURES[gesture_index]
-  for i in range(0, 17):
-    filename = f"csv/unofficial/{gesture}/PCA/{gesture}_{i}_pca.csv"
+  for i in range(0, 11 ):
+    filename = f"csv/unofficial/{gesture}/{gesture}_{i}.csv"
     print(f"Processing file: {filename}")
     df = pd.read_csv(filename)
     input = df.to_numpy().flatten()
-    padded_sequence = pad_sequences([input], maxlen=300, dtype='float32', padding='post', truncating='post')
+    padded_sequence = pad_sequences([input], maxlen=540, dtype='float32', padding='post', truncating='post')
     inputs.append(padded_sequence[0])
 
 inputs = np.array(inputs)
@@ -39,7 +44,7 @@ predictions = model.predict(inputs_test)
 #check if the prediction is label B
 num_correct = 0
 for prediction in predictions:
-    if prediction[0] > 0.5:
+    if prediction[labels.index(GESTURES[0])] > 0.5:
         num_correct += 1
 
 print("number of correct predictions:", num_correct)

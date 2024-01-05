@@ -34,11 +34,11 @@ for gesture_index in range (NUM_GESTURES):
 #   print(f"Processing index {gesture_index} for gesture '{gesture}'.")
   output = ONE_HOT_ENCODED_GESTURES[gesture_index]
   for i in range(NUM_OF_RECORDINGS):
-    filename = f"csv/official/{gesture}/PCA/{gesture}_{i}_pca.csv"
+    filename = f"csv/official/{gesture}/{gesture}_{i}.csv"
     # print(f"Processing file: {filename}")
     df = pd.read_csv(filename)
     input = df.to_numpy().flatten()
-    padded_sequence = pad_sequences([input], maxlen=270, dtype='float32', padding='post', truncating='post')
+    padded_sequence = pad_sequences([input], maxlen=540, dtype='float32', padding='post', truncating='post')
     inputs.append(padded_sequence[0])
     outputs.append(output)
 
@@ -106,8 +106,8 @@ outputs_test = tf.convert_to_tensor(outputs_test, dtype=tf.float32)
 # model.summary()
 # 1D CNN neural network
 model_m = tf.keras.Sequential()
-model_m.add(Reshape((90, 3), input_shape=(270,)))
-model_m.add(Conv1D(100, 10, activation='relu', input_shape=(90, 3)))
+model_m.add(Reshape((90, 6), input_shape=(540,)))
+model_m.add(Conv1D(100, 10, activation='relu', input_shape=(90, 6)))
 model_m.add(Conv1D(100, 10, activation='relu'))
 model_m.add(MaxPooling1D(3))
 model_m.add(Dropout(0.3))
@@ -117,13 +117,13 @@ model_m.add(GlobalAveragePooling1D())
 model_m.add(Dropout(0.5))
 model_m.add(Dense(27, activation='softmax'))
 print(model_m.summary())
-keras.utils.plot_model(model_m, show_shapes=True)
+# keras.utils.plot_model(model_m, show_shapes=True)
 
 callbacks_list = [
     keras.callbacks.ModelCheckpoint(
         filepath='model_CNN/best_model.{epoch:02d}-{val_loss:.2f}.h5',
         monitor='val_loss', save_best_only=True),
-    keras.callbacks.EarlyStopping(monitor='acc', patience=1)
+    keras.callbacks.EarlyStopping(monitor='accuracy', patience=5)
 ]
 
 model_m.compile(loss='categorical_crossentropy',

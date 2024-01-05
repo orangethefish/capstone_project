@@ -3,10 +3,10 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pandas as pd
-# from flask_cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
 # app.config['Access-Control-Allow-Origin'] = '*'
 # app.config['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
@@ -16,9 +16,6 @@ def _build_cors_preflight_response():
     response.headers.add("Access-Control-Allow-Origin", "*")
     response.headers.add("Access-Control-Allow-Headers", "*")
     response.headers.add("Access-Control-Allow-Methods", "*")
-    return response
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 GESTURES = [
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
@@ -33,7 +30,7 @@ def before_request():
     if request.method == 'OPTIONS' or request.method == 'options': 
         return jsonify(headers), 200
 @app.route('/capstone/api/predictions', methods=['POST', 'OPTIONS'])
-# @cross_origin()
+@cross_origin()
 def get_predictions():
     try:
         # if request.method == "OPTIONS": # CORS preflight
@@ -62,15 +59,17 @@ def get_predictions():
             # return jsonify({'predictions': predictions_list})
         body = request.get_json()
         data = body['readings']
-        print(data)
-        # Extract and process data for prediction
+        # print(data)
+        # # Extract and process data for prediction
         inputs_for_test = process_input_data(data)
 
-        # Apply PCA to get the matrix Z
-        z_matrix = apply_pca(inputs_for_test)
+        # # Apply PCA to get the matrix Z
+        # z_matrix = apply_pca(inputs_for_test)
 
-        # Convert to tensorflow data
-        inputs_tf = get_input_data(z_matrix)
+        # # Convert to tensorflow data
+        # inputs_tf = get_input_data(z_matrix)
+
+        inputs_tf = get_input_data(inputs_for_test)
 
         # Use the model to predict the inputs
         predictions = model.predict(inputs_tf)
@@ -156,16 +155,20 @@ def apply_pca(data):
 
 def get_input_data(data):
 
-    # Flatten the entire 2D array
-    flattened_array = data.flatten()
+    # Convert the list of dictionaries to a NumPy array
+    data_array = np.array([[item['ax'], item['ay'], item['az'], item['gx'], item['gy'], item['gz']] for item in data])
 
-    # Pad the flattened array to a length of 320
-    padded_sequence = pad_sequences([flattened_array], maxlen=270, dtype='float32', padding='post', truncating='post')
+    # Flatten the entire 2D array
+    flattened_array = data_array.flatten()
+
+    # Pad the flattened array to a length of 540 (6 features per reading, 90 readings)
+    padded_sequence = pad_sequences([flattened_array], maxlen=540, dtype='float32', padding='post', truncating='post')
 
     # Convert the padded sequence to a TensorFlow tensor
     inputs_test = tf.convert_to_tensor(padded_sequence, dtype=tf.float32)
 
     return inputs_test
+
 
 
 if __name__ == '__main__':

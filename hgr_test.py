@@ -33,7 +33,7 @@ for gesture_index in range (NUM_GESTURES):
 #   print(f"Processing index {gesture_index} for gesture '{gesture}'.")
   output = ONE_HOT_ENCODED_GESTURES[gesture_index]
   for i in range(NUM_OF_RECORDINGS):
-    filename = f"csv/unofficial/test/PCA/{gesture}_{i}_pca.csv"
+    filename = f"csv/official/{gesture}/PCA/{gesture}_{i+100}_pca.csv"
     # print(f"Processing file: {filename}")
     df = pd.read_csv(filename)
     input = df.to_numpy().flatten()
