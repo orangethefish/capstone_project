@@ -27,8 +27,8 @@ function handleCharacteristicValueChanged(event) {
   const gx = new DataView(data.buffer, 12).getFloat32(0, true);
   const gy = new DataView(data.buffer, 16).getFloat32(0, true);
   const gz = new DataView(data.buffer, 20).getFloat32(0, true);
-  readings.push({ ax, ay, az, gx, gy, gz });
-  // console.log(`Acc: ${ax.toFixed(4)} ${ay.toFixed(4)} ${az.toFixed(4)}`);
+  // readings.push({ ax, ay, az, gx, gy, gz });
+  console.log(`${ax.toFixed(4)} ${ay.toFixed(4)} ${az.toFixed(4)} ${gx.toFixed(4)} ${gy.toFixed(4)} ${gz.toFixed(4)}`);
   
 }
 async function sendDataToBackend() {
