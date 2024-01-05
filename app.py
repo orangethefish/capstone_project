@@ -1,23 +1,70 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pandas as pd
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
+# app.config['Access-Control-Allow-Origin'] = '*'
+# app.config['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
 
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+GESTURES = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+    "K", "L","M", "N", "O", "P", "Q", "R", "S", "T",
+    "U", "V","W", "X", "Y", "Z", "idle"
+]
 # Load your trained model
-model = tf.keras.models.load_model('test')
-
-@app.route('/capstone/api/predictions', methods=['POST'])
+model = tf.keras.models.load_model('result')
+@app.before_request 
+def before_request(): 
+    headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } 
+    if request.method == 'OPTIONS' or request.method == 'options': 
+        return jsonify(headers), 200
+@app.route('/capstone/api/predictions', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def get_predictions():
     try:
-        # Assuming the frontend sends JSON data in the request body
-        body = request.get_json()
-        # data = body['readings']
+        # if request.method == "OPTIONS": # CORS preflight
+        #     return _build_cors_preflight_response(),200
+        # # Assuming the frontend sends JSON data in the request body
+        # elif request.method == "POST":
+            # body = request.get_json()
+            # data = body['readings']
 
+            # # Extract and process data for prediction
+            # inputs_for_test = process_input_data(data)
+
+            # # Apply PCA to get the matrix Z
+            # z_matrix = apply_pca(inputs_for_test)
+
+            # # Convert to tensorflow data
+            # inputs_tf = get_input_data(z_matrix)
+
+            # # Use the model to predict the inputs
+            # predictions = model.predict(inputs_tf)
+
+            # # Convert predictions to a list for easier JSON serialization
+            # predictions_list = predictions.tolist()
+
+            # # Return predictions as JSON
+            # return jsonify({'predictions': predictions_list})
+        body = request.get_json()
+        data = body['readings']
+        print(data)
         # Extract and process data for prediction
-        inputs_for_test = process_input_data(body)
+        inputs_for_test = process_input_data(data)
 
         # Apply PCA to get the matrix Z
         z_matrix = apply_pca(inputs_for_test)
@@ -32,7 +79,10 @@ def get_predictions():
         predictions_list = predictions.tolist()
 
         # Return predictions as JSON
-        return jsonify({'predictions': predictions_list})
+        #return the gesture that has the highest probability
+        return jsonify({'prediction': GESTURES[np.argmax(predictions_list)]}),201
+
+        
 
     except Exception as e:
         return jsonify({'error': str(e)})
