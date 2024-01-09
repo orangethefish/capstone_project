@@ -97,7 +97,7 @@ opt = Adam(learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999)
 # build the model and train it
 model = tf.keras.Sequential()
 #add LSTM layer
-# model.add(LSTM(100, input_shape=(300,1), return_sequences=True))
+model.add(LSTM(100, input_shape=(300,1), return_sequences=True))
 model.add(Dense(100,kernel_regularizer=regularizers.L1L2(l1=1e-5, l2=1e-4),
     bias_regularizer=regularizers.L2(1e-4),
     activity_regularizer=regularizers.L2(1e-5), activation='relu')) # relu is used for performance
