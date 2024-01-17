@@ -10,7 +10,14 @@ CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
 # app.config['Access-Control-Allow-Origin'] = '*'
 # app.config['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
-
+column_mapping = {
+    'column_0': 'ax',
+    'column_1': 'ay',
+    'column_2': 'az',
+    'column_3': 'gx',
+    'column_4': 'gy',
+    'column_5': 'gz',
+}
 def _build_cors_preflight_response():
     response = make_response()
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -23,7 +30,7 @@ GESTURES = [
     "U", "V","W", "X", "Y", "Z", "idle"
 ]
 # Load your trained model
-model = tf.keras.models.load_model('result')
+model = tf.keras.models.load_model('lstm')
 @app.before_request 
 def before_request(): 
     headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } 
@@ -59,9 +66,14 @@ def get_predictions():
             # return jsonify({'predictions': predictions_list})
         body = request.get_json()
         data = body['readings']
+        df_train = pd.DataFrame(data)
+        df_train = df_train.iloc[9:85]
+        df_train = df_train.rename(columns=column_mapping)
+        df_train = df_train.values.reshape(-1, 70, 6)
+        df_train = tf.convert_to_tensor(df_train, dtype=tf.float32)
         # print(data)
         # # Extract and process data for prediction
-        inputs_for_test = process_input_data(data)
+        # inputs_for_test = process_input_data(data)
 
         # # Apply PCA to get the matrix Z
         # z_matrix = apply_pca(inputs_for_test)
@@ -69,10 +81,10 @@ def get_predictions():
         # # Convert to tensorflow data
         # inputs_tf = get_input_data(z_matrix)
 
-        inputs_tf = get_input_data(inputs_for_test)
+        # inputs_tf = get_input_data(inputs_for_test)
 
         # Use the model to predict the inputs
-        predictions = model.predict(inputs_tf)
+        predictions = model.predict(df_train)
 
         # Convert predictions to a list for easier JSON serialization
         predictions_list = predictions.tolist()
