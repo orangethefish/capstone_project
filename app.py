@@ -30,7 +30,7 @@ GESTURES = [
     "U", "V","W", "X", "Y", "Z", "idle"
 ]
 # Load your trained model
-model = tf.keras.models.load_model('lstm')
+model = tf.keras.models.load_model('lstm_raw')
 @app.before_request 
 def before_request(): 
     headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } 
@@ -67,7 +67,7 @@ def get_predictions():
         body = request.get_json()
         data = body['readings']
         df_train = pd.DataFrame(data)
-        df_train = df_train.iloc[9:85]
+        df_train = df_train.iloc[15:85]
         df_train = df_train.rename(columns=column_mapping)
         df_train = df_train.values.reshape(-1, 70, 6)
         df_train = tf.convert_to_tensor(df_train, dtype=tf.float32)

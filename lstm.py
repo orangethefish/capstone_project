@@ -2,8 +2,7 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from tensorflow.keras.layers import Reshape
-# from tensorflow.keras.preprocessing.sequence import pad_sequences
+
 
 GESTURES = [
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
@@ -18,14 +17,14 @@ column_mapping = {
     'column_4': 'gy',
     'column_5': 'gz',
 }
-
+labels = ["A","Z","S"]
 g= 9.81
 #from csv/official/A_1.csv import to df
-model = tf.keras.models.load_model('lstm')
-for label in GESTURES:
+model = tf.keras.models.load_model('lstm_raw')
+for label in labels:
     correct = 0
-    for i in range(0,100):
-        file_name = f'./csv/official/{label}/{label}_{i}.csv'   
+    for i in range(0,10):
+        file_name = f'./csv/unofficial/{label}/{label}_{i}.csv'   
         # print(f"Reading file {file_name}")
         df = pd.read_csv(file_name)
         df = df.rename(columns=column_mapping)
@@ -44,4 +43,4 @@ for label in GESTURES:
         prediction = model.predict(reshaped)
         if GESTURES[np.argmax(prediction)]==label:
             correct += 1
-    print(f"Accuracy for {label}: {correct}%")
+    print(f"Accuracy for {label}: {correct}/10")
